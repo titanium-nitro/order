@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Drink Order</title>
+    <style>
+        #message {
+            display: none;
+            font-size: 20px;
+            color: green;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/emailjs-com@2/dist/email.min.js"></script>
+    <script>
+        (function(){
+            emailjs.init("-5N2x9pBDyfMsn5pt"); // Replace with your EmailJS user ID
+        })();
+    </script>
+</head>
+<body>
+    <button onclick="order('Pepsi')">Pepsi</button>
+    <button onclick="order('Water')">Water</button>
+    <button onclick="order('Juice')">Juice</button>
+    <button onclick="order('Lemonade')">Lemonade</button>
+    <button onclick="order('Fanta')">Fanta</button>
+
+    <div id="message">Thanks for your order, please wait...</div>
+
+    <script>
+        function order(drink) {
+            // Hide all buttons
+            var buttons = document.getElementsByTagName('button');
+            for (var i = 0; i < buttons.length; i++) {
+                buttons[i].style.display = 'none';
+            }
+
+            // Show the message
+            document.getElementById('message').style.display = 'block';
+
+            // Log the order
+            console.log('Order: ' + drink);
+
+            // Send email with the order
+            emailjs.send("service_z1yvhhz", "template_6tsai95", { // Replace with your EmailJS service ID and template ID
+                to_name: "Nitro",
+                from_name: "Drink Order System",
+                message: "Order: " + drink
+            })
+            .then(function(response) {
+                console.log("SUCCESS!", response.status, response.text);
+            }, function(error) {
+                console.log("FAILED...", error);
+            });
+        }
+    </script>
+</body>
+</html>
