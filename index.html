@@ -8,11 +8,16 @@
             font-size: 20px;
             color: green;
         }
+        #error {
+            display: none;
+            font-size: 20px;
+            color: red;
+        }
     </style>
     <script src="https://cdn.jsdelivr.net/npm/emailjs-com@2/dist/email.min.js"></script>
     <script>
         (function(){
-            emailjs.init("-5N2x9pBDyfMsn5pt"); // Replace with your EmailJS user ID
+            emailjs.init("-5N2x9pBDyfMsn5pt"); // Replace with your EmailJS public key
         })();
     </script>
 </head>
@@ -24,6 +29,7 @@
     <button onclick="order('Fanta')">Fanta</button>
 
     <div id="message">Thanks for your order, please wait...</div>
+    <div id="error">There was an error processing your order. Please try again.</div>
 
     <script>
         function order(drink) {
@@ -49,6 +55,16 @@
                 console.log("SUCCESS!", response.status, response.text);
             }, function(error) {
                 console.log("FAILED...", error);
+
+                // Hide the success message
+                document.getElementById('message').style.display = 'none';
+                // Show the error message
+                document.getElementById('error').style.display = 'block';
+
+                // Show the buttons again
+                for (var i = 0; i < buttons.length; i++) {
+                    buttons[i].style.display = 'inline-block';
+                }
             });
         }
     </script>
